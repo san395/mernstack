@@ -6,6 +6,52 @@
         <title>
             <%= title %>
         </title>
+        <style>
+            *{
+                box-sizing: border-box;
+            }
+            #post_area{
+                margin-top: 40px;
+                display: inline-block;
+                width: 100%;
+                margin-inline-start: auto;
+            }
+            #feed-posts{
+                width:50%;
+                margin: auto;
+            }
+            #postbtn{
+                margin-top: 20px;
+            }
+            .textbox{
+                width: 100%;
+                height:auto;
+            }
+            li{
+                list-style: none;
+                text-align: start;
+                padding-left: 0px;
+                margin-bottom: 30px;
+            }
+            ul{
+                padding-left: 0px;  
+            }
+            #posts-list-container{
+                width:100%;
+                background-color: aliceblue;
+                padding: 0px;
+                margin-right: 0px;
+                text-align: start;
+            }
+            #postcont{
+                font-size: 1.3rem;
+                font-weight: bold;
+            }
+            #username{
+                font-weight: normal;
+                font-size:1 rem;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,41 +74,50 @@
               </div>
             </div>
           </nav>
-        <h1 style="text-align: center;">Home</h1>
+        <h1 style="text-align: center;margin-top: 40px;">CODEIAL | Home</h1>
         <section id="feed-posts">
-            <h4>posts</h4>
-            <form action="/posts/create" id="new-post-form" method="POST">
-                <textarea name="content" cols="30" rows="3"></textarea>
-                <input type="submit" value="POST">
-            </form>
+            <form  action="/posts/create" method="POST" >
+                <textarea name="content" placeholder="Post here" class="rounded-3 " rows="3" cols="40" id="post_area"></textarea><br>
+                <button type="submit"  id="postbtn" value="POST" class="btn btn-primary">Post</button>
+             </form>
             <div id="posts-list-container">
-                <ul>
+                <ul style="text-align: center;">
                     <% for(post of posts) { %>
-                        <li>
-                            <p>
+                        <li class ="border-primary ">
+                            <p id="postcont">
                             <%=post.content %>
                             <br>
-                            <small>
+                            <small id="username">
                                 <%= post.user.name %>
                             </small>
                             </p>
                             <div class='post-comment'>
-                            <form action="/comments/create"  method="POST">
+                            <!-- <form action="/comments/create"  method="POST">
                                 <input type="text" name="content" placeholder="Type here to add Comment...">
                                 <input type="hidden" name="post" value="<%= post._id %>">
                                 <input type="submit" value="add Comment">
-                            </form>
-                            <div class="post-comments-list">
-                                <ul id="post-comments-<%=post._id %>">
+                            </form> -->
+                            <h1 style="font-size: 1.2rem;">Comments</h1>
+                            <div class="post-comments-list" style="height: 130px;overflow: scroll;">
+                                <ul id="post-comments-<%=post._id %>" >
                                     <% for (comment of post.comments){%>
-                                        <p><%= comment.content%></p>
+                                        <p><%= comment.content%>
                                         <br>
                                         <small>
                                             <%= comment.user.name%>
                                         </small>
+                                        </p>
                                         <%}%>
                                 </ul>
                             </div>
+                            <form class="my-auto mx-auto" action="/comments/create" method="POST">
+                                <div class="mb-3">
+                                  <input type="text" name="content" class="textbox" placeholder="Type Here to add comment ..." class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                  <input type="hidden" name="post" value="<%= post._id %>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                  <div id="emailHelp" class="form-text"></div>
+                                </div>
+                                <button type="submit" value="signIn" class="btn btn-primary">Submit</button>
+                            </form>
                             </div>
                         </li>
                      <%}%>   
